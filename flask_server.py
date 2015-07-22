@@ -1,13 +1,13 @@
 from flask import Flask
-from collections import Counter
+import requests
 
 app = Flask(__name__)
 
 
 @app.route('/count/<key>')
-def count(key, counter=Counter()):
-    counter[key] += 1
-    return str(counter[key])
+def count(key):
+    req = requests.get('http://127.0.0.1:8000/count/' + key)
+    return req.text
 
 
 @app.route('/fibonacci/<int:n>')
@@ -18,46 +18,37 @@ def fibonacci(n):
         a, b = b, a + b
     return str(a)
 
-app.run(port=8000)
+if __name__ == '__main__':
+    app.run(port=5000)
 
 '''
-Running 30s test @ http://127.0.0.1:8000/count/key1
+Running 30s test @ http://127.0.0.1:4000/count/key6
   12 threads and 400 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    91.76ms   61.45ms   1.71s    94.69%
-    Req/Sec   147.67    138.26   640.00     73.07%
-  11901 requests in 30.04s, 1.78MB read
-  Socket errors: connect 0, read 140, write 0, timeout 395
-Requests/sec:    396.23
-Transfer/sec:     60.78KB
+    Latency     1.01s   506.89ms   1.52s    66.67%
+    Req/Sec     0.31      0.59     2.00     76.27%
+  59 requests in 30.04s, 9.27KB read
+  Socket errors: connect 0, read 0, write 0, timeout 56
+Requests/sec:      1.96
+Transfer/sec:     315.94B
 
-Running 30s test @ http://127.0.0.1:8000/fibonacci/9
+Running 30s test @ http://127.0.0.1:4000/fibonacci/9
   12 threads and 400 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   100.04ms  103.16ms   1.71s    94.72%
-    Req/Sec   128.74    145.91   616.00     76.48%
-  16626 requests in 30.03s, 2.46MB read
-  Socket errors: connect 0, read 166, write 0, timeout 537
-Requests/sec:    553.61
-Transfer/sec:     83.80KB
+    Latency    59.74ms   60.91ms   1.69s    98.20%
+    Req/Sec   187.97    175.84   646.00     72.04%
+  18898 requests in 30.04s, 2.90MB read
+  Socket errors: connect 0, read 81, write 0, timeout 403
+Requests/sec:    629.16
+Transfer/sec:     98.92K
 
-Running 30s test @ http://127.0.0.1:8000/fibonacci/40
+Running 30s test @ http://127.0.0.1:4000/fibonacci/500
   12 threads and 400 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   104.17ms  167.31ms   1.71s    94.51%
-    Req/Sec   145.35    129.26   540.00     65.32%
-  29591 requests in 30.10s, 4.57MB read
-  Socket errors: connect 283, read 258, write 0, timeout 194
-Requests/sec:    983.10
-Transfer/sec:    155.53KB
-
-Running 30s test @ http://127.0.0.1:8000/fibonacci/440
-  12 threads and 400 connections
-  Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    73.30ms   14.66ms 492.43ms   94.32%
-    Req/Sec   271.76    171.25   580.00     59.20%
-  5541 requests in 30.04s, 1.30MB read
-  Socket errors: connect 0, read 0, write 0, timeout 260
-Requests/sec:    184.48
-Transfer/sec:     44.32KB
+    Latency    67.61ms   77.37ms   1.70s    97.67%
+    Req/Sec   200.08    159.17   626.00     55.79%
+  20846 requests in 30.04s, 5.29MB read
+  Socket errors: connect 0, read 99, write 0, timeout 532
+Requests/sec:    693.95
+Transfer/sec:    180.26KB
 '''
