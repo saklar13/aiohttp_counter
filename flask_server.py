@@ -1,5 +1,6 @@
 from flask import Flask
 import requests
+from fibonacci import fib
 
 app = Flask(__name__)
 
@@ -12,43 +13,40 @@ def count(key):
 
 @app.route('/fibonacci/<int:n>')
 def fibonacci(n):
-    if n == 0: return str(0)
-    a, b = 1, 1
-    for i in range(n-1):
-        a, b = b, a + b
-    return str(a)
+    return str(fib(n))
+
 
 if __name__ == '__main__':
     app.run(port=5000)
 
 '''
-Running 30s test @ http://127.0.0.1:4000/count/key6
+Running 30s test @ http://127.0.0.1:4000/count/key5
   12 threads and 400 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     1.01s   506.89ms   1.52s    66.67%
-    Req/Sec     0.31      0.59     2.00     76.27%
-  59 requests in 30.04s, 9.27KB read
-  Socket errors: connect 0, read 0, write 0, timeout 56
-Requests/sec:      1.96
-Transfer/sec:     315.94B
+    Latency     1.05s   410.64ms   1.97s    40.48%
+    Req/Sec     8.34     10.71    90.00     87.02%
+  689 requests in 30.05s, 112.28KB read
+  Socket errors: connect 0, read 0, write 0, timeout 605
+Requests/sec:     22.93
+Transfer/sec:      3.74KB
 
 Running 30s test @ http://127.0.0.1:4000/fibonacci/9
   12 threads and 400 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    59.74ms   60.91ms   1.69s    98.20%
-    Req/Sec   187.97    175.84   646.00     72.04%
-  18898 requests in 30.04s, 2.90MB read
-  Socket errors: connect 0, read 81, write 0, timeout 403
-Requests/sec:    629.16
-Transfer/sec:     98.92K
+    Latency   232.65ms   90.43ms   1.95s    77.89%
+    Req/Sec    94.90     45.98   353.00     71.22%
+  22314 requests in 30.04s, 3.53MB read
+  Socket errors: connect 0, read 0, write 0, timeout 175
+Requests/sec:    742.88
+Transfer/sec:    120.43KB
 
-Running 30s test @ http://127.0.0.1:4000/fibonacci/500
+Running 30s test @ http://127.0.0.1:4000/fibonacci/33
   12 threads and 400 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    67.61ms   77.37ms   1.70s    97.67%
-    Req/Sec   200.08    159.17   626.00     55.79%
-  20846 requests in 30.04s, 5.29MB read
-  Socket errors: connect 0, read 99, write 0, timeout 532
-Requests/sec:    693.95
-Transfer/sec:    180.26KB
+    Latency     0.00us    0.00us   0.00us    -nan%
+    Req/Sec     0.30      0.67     2.00     80.00%
+  11 requests in 30.05s, 1.84KB read
+  Socket errors: connect 0, read 0, write 0, timeout 11
+Requests/sec:      0.37
+Transfer/sec:      62.59B
 '''
